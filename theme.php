@@ -51,44 +51,34 @@ $sitename_shortcode = '{SITENAME}';
 
 $skinchange_block = "";
 $footer_message = "";
-
+ 
 $LAYOUT_SIDEBAR = 
-'
-{SETSTYLE=block-sidebar}
-{MENU=1}
-{DEFAULT_MENUAREA=1}
-{SETSTYLE=sidebar}
-{MENU=2}
-{DEFAULT_MENUAREA=2}';
-            
-
-$LAYOUT_HEADER = '
-<!-- START BLOCK : header -->
-<div class="login"><span class="fa fa-sign-in"></span> '.$topnav_shortcode.' '.$search_shortcode.'</div>
-<div id="sitename">'.$sitename_shortcode.'</div>
-<div id="spacer"></div>
-<div id="slogan">'.$slogan_shortcode.'</div>
-<div id="menu">'.$navbar_shortcode.'</div>
-<div class="grid-wrapper container">	
-  <div class="gb-25 sidebar">
-    '.$LAYOUT_SIDEBAR.
-  '</div>
-  <div class="gb-75 content">
-<!-- END BLOCK : header -->';
-         
-  $LAYOUT_FOOTER  = 
-  '</div>
-   <!-- START BLOCK : footer -->
-    <div class="gb-full footer">
-			<hr />
-			'.$footer_message.'{SITEDISCLAIMER}
-			<div class="copyright"{THEME_DISCLAIMER}</div>'.$skinchange_block.' 
-			'.$skinchange_block.'
+'<div class="gb-25 sidebar">
+    {SETSTYLE=block-sidebar}
+    {MENU=1}
+    {DEFAULT_MENUAREA=1}
+    
+    {SETSTYLE=sidebar}
+    {MENU=2}
+    {DEFAULT_MENUAREA=2}
+    
+    {SETSTYLE=block-sidebar}
+    {MENU=3}
+    {DEFAULT_MENUAREA=3}
+    <div class="text-center">'.$search_shortcode.'</div>
     </div>
-
-	</div> <!-- closing content grid -->   			
-	<!-- END BLOCK : footer -->
-'; 
+<div class="gb-75 content"><!-- END BLOCK : header -->     
+';
+ 
+$elements['search_shortcode'] = "{SEARCH}";
+$elements['topnav_shortcode'] = '{SIGNIN}';
+$elements['navbar_shortcode'] = '{NAVIGATION}';
+$elements['slogan_shortcode'] = '{SITETAG}';
+$elements['sitename_shortcode'] = '{SITENAME}';  
+$elements['layout_sidebar']     = $LAYOUT_SIDEBAR; 
+                    
+$LAYOUT_HEADER =  theme_settings::layout_header($elements);
+$LAYOUT_FOOTER =  theme_settings::layout_footer($elements);
  
 $LAYOUT['index'] = $LAYOUT_HEADER. 
 '<!-- INCLUDE BLOCK : header -->
@@ -99,44 +89,38 @@ $LAYOUT['index'] = $LAYOUT_HEADER.
 <!-- INCLUDE BLOCK : footer -->'.$LAYOUT_FOOTER;
  
 $LAYOUT['default'] = $LAYOUT_HEADER.'
-{ALERTS}{SETSTYLE=main}{---}
+{ALERTS}{SETSTYLE=main}<div class="gb-full">{---}</div>
 '.$LAYOUT_FOOTER;
 
+/* forum layout THEME_LAYOUT is not available */ 
+$elements['search_shortcode'] = "{SEARCH}";
+$elements['topnav_shortcode'] = '{SIGNIN}';
+$elements['navbar_shortcode'] = '{NAVIGATION}';
+$elements['slogan_shortcode'] = '{SITETAG}';
+$elements['sitename_shortcode'] = '{SITENAME}';  
+$elements['layout_sidebar']     = ''; 
 
+$LAYOUT_HEADER =  theme_settings::layout_header($elements);
+$LAYOUT_FOOTER =  theme_settings::layout_footer($elements);
+ 
+$LAYOUT['full'] = $LAYOUT_HEADER.' 
+{ALERTS}{SETSTYLE=main}<div class="gb-full">{---}</div>'.$LAYOUT_FOOTER;
+ 
 /* only in case efiction plugin is installed, otherwise use default shortcodes */
 if(e107::isInstalled('efiction'))
 { 
-	$search_shortcode = "{EFICTION_BLOCK_CONTENT: key=search}";  //temp todo use search addon, it is not parsed, it is correct for now
-    $topnav_shortcode = '<span class="fa fa-power-off"></span> {adminarea}{SIGNIN}';
-    $navbar_shortcode = '{EFICTION_BLOCK_CONTENT: key=menu}';
-    $slogan_shortcode = '{SITETAG}';
-    $sitename_shortcode = '{SITENAME}';
-    
-    $skinchange_block = "{EFICTION_BLOCK_CONTENT: key=skinchange}";
-    $footer_message = "{footer}"; 
+    $elements['search_shortcode'] = "{EFICTION_BLOCK_CONTENT: key=search}";
+    $elements['topnav_shortcode'] = '<span class="fa fa-power-off"></span> {adminarea}{SIGNIN}';
+    $elements['navbar_shortcode'] = '{EFICTION_BLOCK_CONTENT: key=menu}';
+    $elements['slogan_shortcode'] = '{SITETAG}';
+    $elements['sitename_shortcode'] = '{SITENAME}';  
+    $elements['layout_sidebar']     = ''; 
+    $elements['skinchange_block']  = "{EFICTION_BLOCK_CONTENT: key=skinchange}";
+    $elements['footer_message'] = "{footer}"; 
+ 
+    $LAYOUT_HEADER =  theme_settings::layout_header($elements);
+    $LAYOUT_FOOTER =  theme_settings::layout_footer($elements);
 }
-
-$LAYOUT_HEADER = '
-	<div class="login">'.$topnav_shortcode.' '.$search_shortcode.'</div>
-	<div id="sitename">'.$sitename_shortcode.'</div>
-	<div id="spacer"></div>
-	<div id="slogan">'.$slogan_shortcode.'</div>
-	<div id="menu">'.$navbar_shortcode.'</div>
-	<div class="grid-wrapper container">	
-		<div class="gb-full content">';
-
-$LAYOUT_FOOTER  = '		</div>	
-	<!-- START BLOCK : footer -->
-    <div class="gb-full footer">
-			<hr />
-			'.$footer_message.'
-			{SITEDISCLAIMER}
-			<div class="copyright">{THEME_DISCLAIMER}</div>
-			'.$skinchange_block.'
-    </div>
-
-	</div> <!-- closing content grid -->   			
-	<!-- END BLOCK : footer -->';
 
 $LAYOUT['efiction'] = $LAYOUT_HEADER.'{ALERTS}
 {---}'.$LAYOUT_FOOTER;
@@ -168,9 +152,6 @@ function set_metas()
 
 function register_css()
 {
-    e107::css('theme', 'css/bootstrap.css');
-    e107::css('theme', 'skin/base.css');
-    e107::css('theme', 'skin/style.css');
 	e107::css('theme', 'e107.css');
 }
             
@@ -184,11 +165,12 @@ function register_js()
 function register_fonts()
 {
   e107::library('load', 'fontawesome');  
-  define("FONTAWESOME", 4);	
+  define("FONTAWESOME", 5);	
   //getLegacyBSFA font-awesome.min.css
   
   e107::css('url', 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap&subset=latin-ext');
   e107::css('url', 'https://fonts.googleapis.com/css?family=Courgette&display=swap&subset=latin-ext');
+  e107::css('url', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css');
  
 }
           

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Theme name="SnowWhite" version="1.0" date="2021-03-09" compatibility="2.3.0">
+<e107Theme name="SnowWhite" version="1.0.1" date="2021-09-05" compatibility="2.3.0">
 	<author name ="Jimako" email="jimako@e107sk.com" url="https://e107sk.com" />
-	<summary>efiction skin by Artphilia ported for e107</summary>
-	<description>efiction skin by Artphilia ported for e107</description>
+	<summary>efiction skin Snow White by Artphilia ported for e107</summary>
+	<description>efiction skin Snow White by Artphilia ported for e107</description>
 	<category>generic</category>
 	<plugins>
 		<plugin name='gallery' url='core' />
@@ -22,31 +22,26 @@
 		<layout name='index' title='Home Page' >
 			<custompages>FRONTPAGE</custompages>
 		</layout>
+		<layout name='full' title='Forum Page' >
+			<custompages>forum</custompages>
+		</layout>       
         <layout name='default' title='Default layout' default='true' >
              <menuPresets>
-				<area id='31'>
-                    <menu name='online' />
+				<area id='1'>
+                    <menu name='login' />
 					<menu name='search' />
 					<menu name='news_categories' />
 					<menu name='other_news' />
 					<menu name='other_news2' />
+				</area>   
+                <area id='2'>
+                    <menu name='online' />
 					<menu name='blogcalendar' />
-				</area>
-                
+				</area>    
 			</menuPresets>
         </layout>     
 		<layout name='efiction' title='Efiction Pages' >
 			<custompages>:efiction</custompages>
-             <menuPresets>
-				<area id='31'>
-                    <menu name='online' />
-					<menu name='search' />
-					<menu name='news_categories' />
-					<menu name='other_news' />
-					<menu name='other_news2' />
-					<menu name='blogcalendar' />
-				</area>
-			</menuPresets>
 		</layout> 
 	</layouts>
     <themePrefs>
