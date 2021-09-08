@@ -19,7 +19,7 @@ e107::lan('theme');
 define("THEME_LEGACY",false); //warning it is ignored somewhere
 define("THEME_DISCLAIMER", 'Copyright &copy; 2015 Skin by <a href="http://artphilia.de">Artphilia Designs</a>. All rights reserved.');
 ////// Your own css fixes ////////////////////////////////////////////////////
-define("CORE_CSS", true);  //copy core e107.css to theme and remove problematic rules 
+define("CORE_CSS", false);  //copy core e107.css to theme and remove problematic rules 
 
 /* way how to avoid loading libraries by core **********************************/
 define("BOOTSTRAP",  5);
@@ -43,14 +43,13 @@ $LAYOUT['_header_'] = '';
 $LAYOUT['_footer_'] = '';
 
 /*  default values */ 
-$search_shortcode = "{SEARCH}";
-$topnav_shortcode = '{SIGNIN}';
-$navbar_shortcode = '{NAVIGATION}';
-$slogan_shortcode = '{SITETAG}';
-$sitename_shortcode = '{SITENAME}';
-
-$skinchange_block = "";
-$footer_message = "";
+$elements['search_shortcode'] = "{SEARCH}";
+$elements['topnav_shortcode'] = '{SIGNIN}';
+$elements['navbar_shortcode'] = '{NAVIGATION}';
+$elements['slogan_shortcode'] = '{SITETAG}';
+$elements['sitename_shortcode'] = '{SITENAME}';
+$elements['footer_message'] = ''; 
+$elements['skinchange_block'] = ''; 
  
 $LAYOUT_SIDEBAR = 
 '<div class="gb-25 sidebar">
@@ -65,16 +64,11 @@ $LAYOUT_SIDEBAR =
     {SETSTYLE=block-sidebar}
     {MENU=3}
     {DEFAULT_MENUAREA=3}
-    <div class="text-center">'.$search_shortcode.'</div>
+    <div class="text-center">'.$elements['search_shortcode'].'</div>
     </div>
-<div class="gb-75 content"><!-- END BLOCK : header -->     
-';
- 
-$elements['search_shortcode'] = "{SEARCH}";
-$elements['topnav_shortcode'] = '{SIGNIN}';
-$elements['navbar_shortcode'] = '{NAVIGATION}';
-$elements['slogan_shortcode'] = '{SITETAG}';
-$elements['sitename_shortcode'] = '{SITENAME}';  
+<div class="gb-75 content"><!-- END BLOCK : header -->';
+
+
 $elements['layout_sidebar']     = $LAYOUT_SIDEBAR; 
                     
 $LAYOUT_HEADER =  theme_settings::layout_header($elements);
@@ -89,7 +83,7 @@ $LAYOUT['index'] = $LAYOUT_HEADER.
 <!-- INCLUDE BLOCK : footer -->'.$LAYOUT_FOOTER;
  
 $LAYOUT['default'] = $LAYOUT_HEADER.'
-{ALERTS}{SETSTYLE=main}<div class="gb-full">{---}</div>
+{ALERTS}{SETSTYLE=main}{---}
 '.$LAYOUT_FOOTER;
 
 /* forum layout THEME_LAYOUT is not available */ 
@@ -104,7 +98,7 @@ $LAYOUT_HEADER =  theme_settings::layout_header($elements);
 $LAYOUT_FOOTER =  theme_settings::layout_footer($elements);
  
 $LAYOUT['full'] = $LAYOUT_HEADER.' 
-{ALERTS}{SETSTYLE=main}<div class="gb-full">{---}</div>'.$LAYOUT_FOOTER;
+{ALERTS}{SETSTYLE=main}{---}'.$LAYOUT_FOOTER;
  
 /* only in case efiction plugin is installed, otherwise use default shortcodes */
 if(e107::isInstalled('efiction'))
@@ -152,9 +146,11 @@ function set_metas()
 
 function register_css()
 {
+    e107::css('theme', 'css/bootstrap.css');
+	e107::css('theme', 'css/style.css');
 	e107::css('theme', 'e107.css');
 }
-            
+          
 function register_js()
 {
     e107::js('theme', 'js/bootstrap.bundle.min.js', 'jquery');
@@ -164,7 +160,7 @@ function register_js()
            
 function register_fonts()
 {
-  e107::library('load', 'fontawesome');  
+  
   define("FONTAWESOME", 5);	
   //getLegacyBSFA font-awesome.min.css
   
@@ -221,15 +217,18 @@ function remove_ptags($text = '') // FIXME this is a bug in e107 if this is requ
 		}
 
 		switch ($mode) {
+            case "contact-form":
+            case "comment":
+                $style = 'main2';
+            break;
 			case 'wmessage':
 			case 'wm':
 				$style = 'wmessage';
 			break;
 			case 'login_page':
 				$style = 'none';
-
-			case "news":
-					
+            break;
+			case "news":	
 			break;
 
 		}
@@ -255,10 +254,20 @@ function remove_ptags($text = '') // FIXME this is a bug in e107 if this is requ
 					{
 						echo '<h1><span>' . $caption . '</span></h1>';
 					}
-					echo $text;      
+					echo '<div class="gb-full">'.$text.'</div>';      
 
 			break;  
-			
+
+			case 'main2': 
+
+					if(!empty($caption))
+					{
+						echo '<h2 class="h1"><span>' . $caption . '</span></h2>';
+					}
+					echo $text;      
+
+			break; 
+            			
 			case 'none':
 			case 'nocaption':			
 					echo $text;

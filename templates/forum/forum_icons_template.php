@@ -13,7 +13,7 @@
 if (!defined('e107_INIT')) { exit(); }
 
 $tp = e107::getParser();
- 
+
 if(deftrue("FONTAWESOME", false)) {
 
 define('IMAGE_e', 					'e');

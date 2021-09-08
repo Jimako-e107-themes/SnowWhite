@@ -8,3 +8,9 @@ Changelog:
 Version 1.0.0 
 - prerelease, just for layout testing
 
+- navigation template
+- login template
+- signup template
+- fpw template
+- membersonly template 
+- forum template

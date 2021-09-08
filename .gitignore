@@ -352,3 +352,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 css/bootstrap.map
+css/bootstrap.css.map
+css/style.css.map
