@@ -60,7 +60,7 @@ class theme_settings
             <div class="gb-full footer">
         			<hr />
         			'.$footer_message.'{SITEDISCLAIMER}
-        			<div class="copyright"{THEME_DISCLAIMER}</div>'.$skinchange_block.'
+        			<div class="copyright">{THEME_DISCLAIMER}</div>'.$skinchange_block.'
             </div>   
         	</div> <!-- closing content grid -->   			
         	<!-- END BLOCK : footer -->

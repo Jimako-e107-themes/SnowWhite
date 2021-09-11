@@ -17,7 +17,7 @@ e107::lan('theme');
 
 ////////////////////////////////////////////////////////////////////////////////
 define("THEME_LEGACY",false); //warning it is ignored somewhere
-define("THEME_DISCLAIMER", 'Copyright &copy; 2015 Skin by <a href="http://artphilia.de">Artphilia Designs</a>. All rights reserved.');
+define("THEME_DISCLAIMER", "Copyright &copy; 2015 Skin by <a href='http://artphilia.de'>Artphilia Designs</a>. All rights reserved.");
 ////// Your own css fixes ////////////////////////////////////////////////////
 define("CORE_CSS", false);  //copy core e107.css to theme and remove problematic rules 
 
@@ -49,7 +49,7 @@ $elements['navbar_shortcode'] = '{NAVIGATION}';
 $elements['slogan_shortcode'] = '{SITETAG}';
 $elements['sitename_shortcode'] = '{SITENAME}';
 $elements['footer_message'] = ''; 
-$elements['skinchange_block'] = ''; 
+$elements['skinchange_block'] = '{SETSTYLE=default}{MENU: path=skinchange/skinchange}'; 
  
 $LAYOUT_SIDEBAR = 
 '<div class="gb-25 sidebar">
@@ -109,7 +109,7 @@ if(e107::isInstalled('efiction'))
     $elements['slogan_shortcode'] = '{SITETAG}';
     $elements['sitename_shortcode'] = '{SITENAME}';  
     $elements['layout_sidebar']     = ''; 
-    $elements['skinchange_block']  = "{EFICTION_BLOCK_CONTENT: key=skinchange}";
+    $elements['skinchange_block']  = "{SETSTYLE=default}{MENU: path=skinchange/skinchange}";
     $elements['footer_message'] = "{footer}"; 
  
     $LAYOUT_HEADER =  theme_settings::layout_header($elements);
@@ -160,10 +160,7 @@ function register_js()
            
 function register_fonts()
 {
-  
-  define("FONTAWESOME", 5);	
-  //getLegacyBSFA font-awesome.min.css
-  
+ 
   e107::css('url', 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap&subset=latin-ext');
   e107::css('url', 'https://fonts.googleapis.com/css?family=Courgette&display=swap&subset=latin-ext');
   e107::css('url', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css');
